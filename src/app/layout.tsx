@@ -16,11 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-       <MantineProvider theme={theme}>
+       
        <body>
+       <MantineProvider theme={theme}>
         {children}
+        </MantineProvider>
       </body>
-       </MantineProvider>
+       
     
     </html>
   );
