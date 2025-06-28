@@ -21,8 +21,8 @@ export default function Header() {
           <Image
             src="/images/logo.svg"
             alt="Logo"
-            width={40}
-            height={40}
+            width={12}
+            height={12}
             fit="contain"
           />
           <Title order={3} className="font-bold text-base">
