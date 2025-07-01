@@ -2,28 +2,22 @@
 import "./globals.css";
 import '@mantine/core/styles.css';
 import { createTheme, MantineProvider } from '@mantine/core';
+import { Providers } from './components/Providers';
 
 const theme = createTheme({
   /** Put your mantine theme override here */
 });
 
-
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-       
-       <body>
-       <MantineProvider theme={theme}>
-        {children}
-        </MantineProvider>
+      <body>
+        <Providers>
+          <MantineProvider theme={theme}>
+            {children}
+          </MantineProvider>
+        </Providers>
       </body>
-       
-    
     </html>
   );
 }

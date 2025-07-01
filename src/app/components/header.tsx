@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import {
   AppShell,
@@ -10,8 +11,12 @@ import {
   Image,
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
+
+
 
 export default function Header() {
+  const router = useRouter();
   return (
     <Container fluid className="border-b border-gray-200 bg-white">
       <Flex justify="space-between" align="center" h={60} px="md">
@@ -44,8 +49,14 @@ export default function Header() {
             leftSection={<IconSearch size={16} />}
             className="w-64"
           />
-          <Button variant="subtle" color="dark">Sign up</Button>
-          <Button variant="filled" color="dark">Log in</Button>
+          <Button variant="subtle" color="dark" onClick={() => router.push('/auth/register')}>Sign up</Button>
+          <Button 
+            variant="filled" 
+            color="dark" 
+            onClick={() => router.push('/auth/login')}
+          >
+            Log in
+          </Button>
         </Group>
       </Flex>
     </Container>

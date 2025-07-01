@@ -1,5 +1,11 @@
 
+import { redirect } from 'next/navigation';
+
+function RedirectHome() {
+  redirect('/auth/login');
+}
 import Header from "./components/header"
+import Footer from "./components/footer"
 import {
   Container,
   Title,
@@ -15,6 +21,7 @@ import {
   TabsList,
   TabsTab,
   TabsPanel,
+  Rating,
 } from '@mantine/core';
 
 
@@ -36,19 +43,19 @@ export default function Home() {
   const reviews = [
     {
       name: 'Sophia Bennett',
-      avatar: '/avatars/av1.svg',
+      avatar: '/images/av1.svg',
       review:
         'The ambiance at The Cozy Corner Cafe is delightful, with soft lighting and comfortable seating. The signature dish, the Sunrise Breakfast, is a must-try...',
     },
     {
       name: 'Ethan Carter',
-      avatar: '/avatars/p1.svg',
+      avatar: '/images/p1.svg',
       review:
         'The Modern Art Gallery is a great place to spend an afternoon. The exhibits are well-curated, and the space is open and inviting...',
     },
     {
       name: 'Olivia Davis',
-      avatar: '/avatars/av1.svg',
+      avatar: '/images/av1.svg',
       review:
         'The lakeside retreat offers a serene escape from the city. The cabins are well-maintained, and the views are breathtaking...',
     },
@@ -58,7 +65,7 @@ export default function Home() {
     <Header/>
     <Container size="lg" className="mt-4 space-y-10">
       {/* Filter Bar */}
-      <Group spacing="xs">
+      <Group >
         {filters.map((filter) => (
           <Button key={filter} variant="light" radius="xl" color="gray">
             {filter}
@@ -135,6 +142,7 @@ export default function Home() {
                     <Avatar src={user.avatar} radius="xl" />
                     <Text className="font-medium">{user.name}</Text>
                   </Flex>
+                  <Rating value={3.5} fractions={2} readOnly/>
                   <Text className="text-sm text-gray-700 leading-relaxed">
                     {user.review}
                   </Text>
@@ -150,6 +158,8 @@ export default function Home() {
         </Tabs>
       </section>
     </Container>
+
+    <Footer/>
     
     </>
   );
