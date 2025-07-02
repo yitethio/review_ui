@@ -25,14 +25,14 @@ interface RegisterCredentials {
 }
 
 const initialState: AuthState = {
-  isAuthenticated: false,
-  token: null,
+  isAuthenticated: !!Cookies.get('token'),
+  token: Cookies.get('token') || null,
   loading: false,
   error: null,
   user: {
-    name: null,
-    email: null,
-    verified: false
+    name: Cookies.get('userName') || null,
+    email: Cookies.get('userEmail') || null,
+    verified: Cookies.get('userVerified') === 'true'
   }
 };
 
@@ -40,7 +40,7 @@ export const loginUser = createAsyncThunk(
   'auth/login',
   async (credentials: LoginCredentials, { rejectWithValue }) => {
     try {
-      const response = await fetch('https://review.backend.spah.generator.com/auth/login', {
+      const response = await fetch('https://review-backend-aqeh.onrender.com/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,9 +54,13 @@ export const loginUser = createAsyncThunk(
         return rejectWithValue(data.message || 'Login failed');
       }
 
-      // Store token in cookie
-      Cookies.set('token', data.token, { expires: 7 }); // Expires in 7 days
-      return data;
+      // Store all user data in cookies
+      Cookies.set('token', data.token, { expires: 7 });
+      Cookies.set('userName', data.user.name, { expires: 7 });
+      Cookies.set('userEmail', data.user.email, { expires: 7 });
+      Cookies.set('userVerified', String(data.user.verified), { expires: 7 });
+
+      return { token: data.token, user: data.user };
     } catch (error) {
       return rejectWithValue('Network error occurred');
     }
@@ -67,7 +71,7 @@ export const registerUser = createAsyncThunk(
   'auth/register',
   async (credentials: RegisterCredentials, { rejectWithValue }) => {
     try {
-      const response = await fetch('https://review.backend.spah.generator.com/auth/register', {
+      const response = await fetch('https://review-backend-aqeh.onrender.com/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,9 +85,13 @@ export const registerUser = createAsyncThunk(
         return rejectWithValue(data.message || 'Registration failed');
       }
 
-      // Store token in cookie
-      Cookies.set('token', data.token, { expires: 7 }); // Expires in 7 days
-      return data;
+      // Store all user data in cookies
+      Cookies.set('token', data.token, { expires: 7 });
+      Cookies.set('userName', data.user.name, { expires: 7 });
+      Cookies.set('userEmail', data.user.email, { expires: 7 });
+      Cookies.set('userVerified', String(data.user.verified), { expires: 7 });
+
+      return { token: data.token, user: data.user };
     } catch (error) {
       return rejectWithValue('Network error occurred');
     }
@@ -102,11 +110,14 @@ const authSlice = createSlice({
         email: null,
         verified: false
       };
+      // Remove all cookies
       Cookies.remove('token');
+      Cookies.remove('userName');
+      Cookies.remove('userEmail');
+      Cookies.remove('userVerified');
     },
   },
   extraReducers: (builder) => {
-    // Login cases
     builder
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
@@ -116,9 +127,9 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.token = action.payload.token;
         state.user = {
-          name: action.payload.name,
-          email: action.payload.email,
-          verified: action.payload.verified
+          name: action.payload.user.name,
+          email: action.payload.user.email,
+          verified: action.payload.user.verified
         };
         state.loading = false;
       })
@@ -126,7 +137,6 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      // Register cases
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -135,9 +145,9 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.token = action.payload.token;
         state.user = {
-          name: action.payload.name,
-          email: action.payload.email,
-          verified: action.payload.verified
+          name: action.payload.user.name,
+          email: action.payload.user.email,
+          verified: action.payload.user.verified
         };
         state.loading = false;
       })
