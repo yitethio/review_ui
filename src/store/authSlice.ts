@@ -61,7 +61,8 @@ export const loginUser = createAsyncThunk(
       Cookies.set('userVerified', String(data.user.verified), { expires: 7 });
 
       return { token: data.token, user: data.user };
-    } catch (error) {
+    } catch (err) { // Rename error to err since we're using it
+      console.error('Login error:', err);
       return rejectWithValue('Network error occurred');
     }
   }
@@ -92,7 +93,8 @@ export const registerUser = createAsyncThunk(
       Cookies.set('userVerified', String(data.user.verified), { expires: 7 });
 
       return { token: data.token, user: data.user };
-    } catch (error) {
+    } catch (err) { // Rename error to err since we're using it
+      console.error('Registration error:', err);
       return rejectWithValue('Network error occurred');
     }
   }

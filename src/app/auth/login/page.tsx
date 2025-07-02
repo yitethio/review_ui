@@ -17,15 +17,16 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { loginUser } from '../../../store/authSlice';
+import { AppDispatch } from '../../../store/store';
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await dispatch(loginUser(formData) as any);
+    const result = await dispatch(loginUser(formData));
     if (loginUser.fulfilled.match(result)) {
       router.push('/');
     }

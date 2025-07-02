@@ -1,9 +1,10 @@
 
 import { redirect } from 'next/navigation';
 
-function RedirectHome() {
-  redirect('/auth/login');
-}
+// Remove or comment out the unused RedirectHome function
+// function RedirectHome() {
+//   redirect('/auth/login');
+// }
 import Header from "./components/header"
 import Footer from "./components/footer"
 import {
@@ -112,16 +113,17 @@ export default function Home() {
                   radius="md"
                   height={120}
                   className="mb-2"
-                />
-                <Text className="font-medium text-sm">{card.title}</Text>
-                <Text size="xs" color="gray">
-                  {card.rating} ★ · {card.reviews} reviews
-                </Text>
-              </div>
-            ))}
-          </Group>
-        </ScrollArea>
-      </section>
+                  // Add alt props to Image eleme
+                  />
+                  <Text className="font-medium text-sm">{card.title}</Text>
+                  <Text size="xs" color="gray">
+                    {card.rating} ★ · {card.reviews} reviews
+                  </Text>
+                </div>
+              ))}
+            </Group>
+          </ScrollArea>
+        </section>
 
       {/* Top & Latest Reviews */}
       <section>

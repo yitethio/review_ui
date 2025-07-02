@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { registerUser } from '../../../store/authSlice';
+import { AppDispatch } from '../../../store/store';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -20,13 +21,12 @@ export default function Register() {
     email: '',
     password: '',
   });
-
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await dispatch(registerUser(formData) as any);
+    const result = await dispatch(registerUser(formData));
     if (registerUser.fulfilled.match(result)) {
       router.push('/auth/login');
     }
