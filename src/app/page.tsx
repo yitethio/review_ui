@@ -1,10 +1,3 @@
-
-import { redirect } from 'next/navigation';
-
-// Remove or comment out the unused RedirectHome function
-// function RedirectHome() {
-//   redirect('/auth/login');
-// }
 import Header from "./components/header"
 import Footer from "./components/footer"
 import {
@@ -88,6 +81,7 @@ export default function Home() {
                   radius="md"
                   height={120}
                   className="mb-2"
+                  alt='Card Image'
                 />
                 <Text className="font-medium text-sm">{card.title}</Text>
                 <Text size="xs" color="gray">
@@ -113,6 +107,7 @@ export default function Home() {
                   radius="md"
                   height={120}
                   className="mb-2"
+                  alt="Card Image"
                   // Add alt props to Image eleme
                   />
                   <Text className="font-medium text-sm">{card.title}</Text>
