@@ -61,11 +61,13 @@ export default function Header() {
           />
           {isAuthenticated ? (
             <Avatar
+              onClick={() => router.push('/profile')}
               color="blue"
               radius="xl"
               size="md"
             >
               {getInitials(user.name)}
+              
             </Avatar>
           ) : (
             <>
