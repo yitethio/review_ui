@@ -47,8 +47,8 @@ export default function Header() {
 
         {/* Center navigation */}
         <Group>
-          <Button variant="subtle" color="gray">Explore</Button>
-          <Button variant="subtle" color="gray">Write a Review</Button>
+          <Button variant="subtle" color="gray" onClick={() => router.push('/')}>Explore</Button>
+          <Button variant="subtle" color="gray" onClick={() => router.push('pages/WriteRreview')}>Write a Review</Button>
           <Button variant="subtle" color="gray"  onClick={() => router.push('pages/AddPlace')}>List a Business</Button>
         </Group>
 
