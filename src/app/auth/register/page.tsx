@@ -77,7 +77,7 @@ export default function Register() {
         {/* Right Illustration Section */}
         <div className="relative hidden md:block bg-gradient-to-tr from-[#836FFF] to-[#C488FF]">
           <Image
-            src="/images/login-illustration.png"
+            src="/images/image.png"
             alt="Register Illustration"
             width={600}
             height={600}

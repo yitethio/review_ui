@@ -73,7 +73,7 @@ export const createReview = createAsyncThunk(
   async (formData: FormData, { rejectWithValue }) => {
     try {
       const token = Cookies.get('token');
-      const response = await fetch('https://review-backend-oeph.onrender.com/reviews', {
+      const response = await fetch('https://review-backend-aqeh.onrender.com/reviews', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
