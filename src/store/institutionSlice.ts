@@ -26,16 +26,15 @@ const initialState: InstitutionState = {
 
 export const addInstitution = createAsyncThunk(
   'institutions/add',
-  async (institutionData: Omit<Institution, 'id' | 'addedBy' | '_id' | '__v'>, { rejectWithValue, getState }) => {
+  async (institutionData: FormData, { rejectWithValue, getState }) => {
     try {
       const state = getState() as { auth: { token: string } };
       const response = await fetch('https://review-backend-aqeh.onrender.com/institutions', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${state.auth.token}`,
         },
-        body: JSON.stringify(institutionData),
+        body: institutionData,
       });
 
       const data = await response.json();
@@ -45,8 +44,8 @@ export const addInstitution = createAsyncThunk(
       }
 
       return data;
-    } catch (error) {
-      return rejectWithValue('Network error occurred');
+    } catch (err) {
+      return rejectWithValue(`Network error occurred ${err}`);
     }
   }
 );
