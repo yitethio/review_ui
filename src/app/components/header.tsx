@@ -49,7 +49,7 @@ export default function Header() {
         <Group>
           <Button variant="subtle" color="gray">Explore</Button>
           <Button variant="subtle" color="gray">Write a Review</Button>
-          <Button variant="subtle" color="gray">List a Business</Button>
+          <Button variant="subtle" color="gray"  onClick={() => router.push('pages/AddPlace')}>List a Business</Button>
         </Group>
 
         {/* Right search & auth */}
