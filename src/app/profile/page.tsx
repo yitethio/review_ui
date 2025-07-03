@@ -132,7 +132,7 @@ export default function Profile() {
               variant="light"
               color="blue"
               mt="md"
-              onClick={() => router.push('/write-review')}
+              onClick={() => router.push('/WriteRreview')}
             >
               Write Your First Review
             </Button>

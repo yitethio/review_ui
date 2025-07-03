@@ -25,11 +25,13 @@ const initialState: InstitutionState = {
   error: null,
 };
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export const fetchInstitutions = createAsyncThunk(
-  'institutions/fetch',
+  'institutions/fetchAll',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch('https://review-backend-aqeh.onrender.com/institutions');
+      const response = await fetch(`${BASE_URL}${process.env.NEXT_PUBLIC_INSTITUTIONS_URL}`);
       if (!response.ok) {
         throw new Error('Failed to fetch institutions');
       }
@@ -41,15 +43,14 @@ export const fetchInstitutions = createAsyncThunk(
   }
 );
 
-export const addInstitution = createAsyncThunk(
-  'institutions/add',
-  async (institutionData: FormData, { rejectWithValue, getState }) => {
+export const createInstitution = createAsyncThunk(
+  'institutions/create',
+  async (institutionData: FormData, { rejectWithValue }) => {
     try {
-      const state = getState() as { auth: { token: string } };
-      const response = await fetch('https://review-backend-aqeh.onrender.com/institutions', {
+      const response = await fetch(`${BASE_URL}${process.env.NEXT_PUBLIC_INSTITUTIONS_URL}`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${state.auth.token}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: institutionData,
       });
@@ -95,15 +96,15 @@ const institutionSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      .addCase(addInstitution.pending, (state) => {
+      .addCase(createInstitution.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(addInstitution.fulfilled, (state, action) => {
+      .addCase(createInstitution.fulfilled, (state, action) => {
         state.institutions.push(action.payload);
         state.loading = false;
       })
-      .addCase(addInstitution.rejected, (state, action) => {
+      .addCase(createInstitution.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
