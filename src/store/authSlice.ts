@@ -7,6 +7,7 @@ interface AuthState {
   loading: boolean;
   error: string | null;
   user: {
+    id: string | null;
     name: string | null;
     email: string | null;
     verified: boolean;
@@ -30,6 +31,7 @@ const initialState: AuthState = {
   loading: false,
   error: null,
   user: {
+    id: Cookies.get('userId') || null,
     name: Cookies.get('userName') || null,
     email: Cookies.get('userEmail') || null,
     verified: Cookies.get('userVerified') === 'true'
@@ -56,12 +58,13 @@ export const loginUser = createAsyncThunk(
 
       // Store all user data in cookies
       Cookies.set('token', data.token, { expires: 7 });
+      Cookies.set('userId', data.user.id, { expires: 7 });
       Cookies.set('userName', data.user.name, { expires: 7 });
       Cookies.set('userEmail', data.user.email, { expires: 7 });
       Cookies.set('userVerified', String(data.user.verified), { expires: 7 });
 
       return { token: data.token, user: data.user };
-    } catch (err) { // Rename error to err since we're using it
+    } catch (err) {
       console.error('Login error:', err);
       return rejectWithValue('Network error occurred');
     }
@@ -88,12 +91,13 @@ export const registerUser = createAsyncThunk(
 
       // Store all user data in cookies
       Cookies.set('token', data.token, { expires: 7 });
+      Cookies.set('userId', data.user.id, { expires: 7 });
       Cookies.set('userName', data.user.name, { expires: 7 });
       Cookies.set('userEmail', data.user.email, { expires: 7 });
       Cookies.set('userVerified', String(data.user.verified), { expires: 7 });
 
       return { token: data.token, user: data.user };
-    } catch (err) { // Rename error to err since we're using it
+    } catch (err) {
       console.error('Registration error:', err);
       return rejectWithValue('Network error occurred');
     }
@@ -108,12 +112,14 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.token = null;
       state.user = {
+        id: null,
         name: null,
         email: null,
         verified: false
       };
       // Remove all cookies
       Cookies.remove('token');
+      Cookies.remove('userId');
       Cookies.remove('userName');
       Cookies.remove('userEmail');
       Cookies.remove('userVerified');
@@ -129,6 +135,7 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.token = action.payload.token;
         state.user = {
+          id: action.payload.user.id,
           name: action.payload.user.name,
           email: action.payload.user.email,
           verified: action.payload.user.verified
@@ -147,6 +154,7 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.token = action.payload.token;
         state.user = {
+          id: action.payload.user.id,
           name: action.payload.user.name,
           email: action.payload.user.email,
           verified: action.payload.user.verified

@@ -1,11 +1,11 @@
 'use client';
-import Header from "../../components/header"
-import Footer from "../../components/footer"
+import Header from "../components/header"
+import Footer from "../components/footer"
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { addInstitution } from '../../../store/institutionSlice';
-import type { AppDispatch } from '../../../store/store';
+import { addInstitution } from '../../store/institutionSlice';
+import type { AppDispatch } from '../../store/store';
 import Image from 'next/image';
 import {
   TextInput,

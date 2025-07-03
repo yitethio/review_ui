@@ -1,6 +1,6 @@
 'use client';
-import Header from "../../components/header"
-import Footer from "../../components/footer"
+import Header from "../components/header"
+import Footer from "../components/footer"
 
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

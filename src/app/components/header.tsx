@@ -48,8 +48,8 @@ export default function Header() {
         {/* Center navigation */}
         <Group>
           <Button variant="subtle" color="gray" onClick={() => router.push('/')}>Explore</Button>
-          <Button variant="subtle" color="gray" onClick={() => router.push('pages/WriteRreview')}>Write a Review</Button>
-          <Button variant="subtle" color="gray"  onClick={() => router.push('pages/AddPlace')}>List a Business</Button>
+          <Button variant="subtle" color="gray" onClick={() => router.push('/WriteRreview')}>Write a Review</Button>
+          <Button variant="subtle" color="gray"  onClick={() => router.push('/AddPlace')}>List a Business</Button>
         </Group>
 
         {/* Right search & auth */}
@@ -61,11 +61,13 @@ export default function Header() {
           />
           {isAuthenticated ? (
             <Avatar
+              onClick={() => router.push('/profile')}
               color="blue"
               radius="xl"
               size="md"
             >
               {getInitials(user.name)}
+              
             </Avatar>
           ) : (
             <>
