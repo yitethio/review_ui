@@ -11,8 +11,11 @@ import { IconUpload, IconX, IconPhoto } from '@tabler/icons-react';
 import { createReview, selectLoading, selectError } from '@/store/reviewSlice';
 import { AppDispatch } from '@/store/store';
 import { fetchInstitutions, selectInstitutions, setSelectedInstitution, selectSelectedInstitution } from '@/store/institutionSlice';
+// Add this import at the top with other imports
+import { useRouter } from 'next/navigation';
 
 export default function WriteReview() {
+  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
@@ -42,12 +45,15 @@ export default function WriteReview() {
     const formData = new FormData();
     formData.append('rating', rating.toString());
     formData.append('comment', comment);
-    formData.append('institution', place); // This should be the institution ID from search
+    formData.append('institution', place);
     images.forEach((image) => {
       formData.append('images', image);
     });
 
-    await dispatch(createReview(formData));
+    const result = await dispatch(createReview(formData));
+    if (createReview.fulfilled.match(result)) {
+      router.push('/');
+    }
   };
 
   const institutions = useSelector(selectInstitutions);

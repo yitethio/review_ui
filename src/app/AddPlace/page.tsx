@@ -4,7 +4,10 @@ import Footer from "../components/footer"
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { addInstitution } from '../../store/institutionSlice';
+// Change this line
+
+// To this
+import { createInstitution } from '../../store/institutionSlice';
 import type { AppDispatch } from '../../store/store';
 import Image from 'next/image';
 import {
@@ -65,8 +68,9 @@ export default function AddPlace() {
         formDataToSend.append('images', image);
       });
 
-      const result = await dispatch(addInstitution(formDataToSend));
-      if (addInstitution.fulfilled.match(result)) {
+      // In handleSubmit, update these lines
+      const result = await dispatch(createInstitution(formDataToSend));
+      if (createInstitution.fulfilled.match(result)) {
         router.push('/');
       }
     } catch (error) {

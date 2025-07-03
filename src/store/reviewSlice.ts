@@ -21,25 +21,8 @@ interface Review {
 }
 
 // Add to your imports
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-
-// Add to your state interface
-interface ReviewState {
-  reviews: Review[];
-  userReviews: Review[];
-  loading: boolean;
-  error: string | null;
-}
-
-// Add to initialState
-const initialState: ReviewState = {
-  reviews: [],
-  userReviews: [],
-  loading: false,
-  error: null,
-};
-
-// Add new async thunk
 export const getUserReviews = createAsyncThunk(
   'reviews/getUserReviews',
   async (_, { rejectWithValue }) => {
@@ -51,7 +34,7 @@ export const getUserReviews = createAsyncThunk(
       
       if (!userId) throw new Error('User ID not found');
       
-      const response = await fetch(`https://review-backend-aqeh.onrender.com/reviews/user/${userId}`, {
+      const response = await fetch(`${BASE_URL}${process.env.NEXT_PUBLIC_USER_REVIEWS_URL}/${userId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -73,7 +56,7 @@ export const createReview = createAsyncThunk(
   async (formData: FormData, { rejectWithValue }) => {
     try {
       const token = Cookies.get('token');
-      const response = await fetch('https://review-backend-aqeh.onrender.com/reviews', {
+      const response = await fetch(`${BASE_URL}${process.env.NEXT_PUBLIC_REVIEWS_URL}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -95,7 +78,12 @@ export const selectUserReviews = (state: RootState) => state.reviews.userReviews
 // Add to extraReducers
 const reviewSlice = createSlice({
   name: 'reviews',
-  initialState,
+  initialState: {
+    reviews: [] as Review[],
+    userReviews: [] as Review[],
+    loading: false,
+    error: null as string | null,
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
