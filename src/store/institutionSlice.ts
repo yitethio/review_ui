@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
+import Cookies from 'js-cookie';
 
 interface Institution {
   id?: string;
@@ -47,10 +48,11 @@ export const createInstitution = createAsyncThunk(
   'institutions/create',
   async (institutionData: FormData, { rejectWithValue }) => {
     try {
+      const token = Cookies.get('token');
       const response = await fetch(`${BASE_URL}${process.env.NEXT_PUBLIC_INSTITUTIONS_URL}`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Authorization': `Bearer ${token}`,
         },
         body: institutionData,
       });
